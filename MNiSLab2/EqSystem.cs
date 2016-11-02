@@ -20,11 +20,14 @@ namespace MNiSLab2
             double[,] varss = new double[s,s];
             for (var i = 0; i < s; i++)
             {
-                
+                var vs=Eqs[i].Vars;
+                for (var j = 0; j < s; j++)
+                {
+                    varss[i, j] = vs[j];
+                }
             }
             var mW = new Matrix(varss);
             W = mW.Determinant();
-            Debug.WriteLine(W);
             return null;
         }
 

@@ -11,7 +11,7 @@
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Label Content="Podaj ilosc rownan: "/>
-            <TextBox x:Name="EqCount" Text="4" KeyUp="Key_Up"/>
+            <TextBox x:Name="EqCount" Text="2" KeyUp="Key_Up"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Bottom">
             <Button Content="Oblicz" Click="CountBtnClick"/>

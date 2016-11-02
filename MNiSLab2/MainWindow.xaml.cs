@@ -24,7 +24,7 @@ namespace MNiSLab2
         {
             Tfs = new List<TextBox>();
             InitializeComponent();
-            UpdateGrid(4);
+            UpdateGrid(2);
         }
 
         private void UpdateGrid(int count)
