@@ -22,8 +22,56 @@ namespace MNiSLab2
     {
         public MainWindow()
         {
+            Tfs = new List<TextBox>();
             InitializeComponent();
-
+            UpdateGrid(4);
         }
+
+        private void UpdateGrid(int count)
+        {
+            if (count > 100 || count == 0) { return; }
+            MGrid.Children.Clear();
+            MGrid.RowDefinitions.Clear();
+            Tfs.Clear();
+            for (var i = 0; i < count; i++)
+            {
+                MGrid.RowDefinitions.Add(new RowDefinition());
+                var tf = new TextBox();
+                MGrid.Children.Add(tf);
+                Grid.SetRow(tf, i);
+                Tfs.Add(tf);
+            }
+        }
+
+        private void Key_Up(object sender, KeyEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(EqCount.Text))
+            {
+                var eqCount = 1;
+                int.TryParse(EqCount.Text, out eqCount);
+                UpdateGrid(eqCount);
+            }
+        }
+
+        private void CountBtnClick(object sender, RoutedEventArgs e)
+        {
+            var eqs = new Eq[Tfs.Count];
+            for (var t = 0; t < Tfs.Count; t++)
+            {
+                var tf = Tfs[t];
+                var txt = tf.Text;
+                if (string.IsNullOrWhiteSpace(txt))
+                {
+                    return;
+                }
+                var vars = Eq.GetVars(txt);
+                var eq = new Eq(vars);
+                eqs[t] = eq;
+            }
+            var eqSystem = new EqSystem(eqs);
+            eqSystem.GetResults();
+        }
+
+        private List<TextBox> Tfs { get; set; }
     }
 }
