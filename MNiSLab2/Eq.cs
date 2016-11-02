@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MNiSLab2
 {
@@ -17,11 +14,11 @@ namespace MNiSLab2
         public static double[] GetVars(string txt)
         {
             var list = new List<double>();
-            if (!txt.Contains('='))
+            var splitted = GetSplitted(txt);
+            if (splitted == null)
             {
                 return null;
             }
-            var splitted = txt.Split(new char[] { '+', '-', '=' });
             for (var i = 0; i < splitted.Count(); i++)
             {
                 var v = splitted[i];
@@ -48,6 +45,29 @@ namespace MNiSLab2
                 }
             }
             return list.ToArray();
+        }
+
+        private static string[] GetSplitted(string txt)
+        {
+            if (string.IsNullOrWhiteSpace(txt)||!txt.Contains('='))
+            {
+                return null;
+            }
+            if (txt.Contains("-"))
+            {
+                txt = txt.Replace("-", "+-");
+            }
+            var res = txt.Split(new char[] { '+', '=' });
+            var splitted = new List<string>();
+            foreach (var s in res)
+            {
+                if (!string.IsNullOrWhiteSpace(s))
+                {
+                    splitted.Add(s);
+                }
+            }
+            res = splitted.ToArray();
+            return res;
         }
     }
 }

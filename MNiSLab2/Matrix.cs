@@ -1,61 +1,75 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MNiSLab2
 {
     public class Matrix
     {
         private int rc_matrix;
-        private double[,] matrix; 
+        private decimal[,] _matrix;
 
-        public Matrix(double[,] double_array)
+        public Matrix(decimal[,] matrix)
         {
-            matrix = double_array;
-            rc_matrix = matrix.GetLength(0);
+            Base = matrix;
+            ConvertToSymMatrix();
         }
 
-        public double getElem(int row, int column)
+        private void ConvertToSymMatrix()
         {
-            return matrix[row, column];
-        }
-
-        public void setElem(double value, int row, int column)
-        {
-            matrix[row, column] = value;
-        }
-
-        public double Determinant()
-        {
-            var det = 0d;
-            var value = 0d;
-            int i, j, k;
-
-            i = rc_matrix;
-            j = rc_matrix;
-            int n = i;
-            
-            for (i = 0; i < n - 1; i++)
+            var m = (decimal[,])Base.Clone();
+            rc_matrix = Base.GetLength(0);
+            _matrix = new decimal[rc_matrix, rc_matrix];
+            for (var i = 0; i < rc_matrix; i++)
             {
-                for (j = i + 1; j < n; j++)
+                for (var j = 0; j < rc_matrix; j++)
+                {
+                    _matrix[i, j] = m[i, j];
+                }
+            }
+        }
+
+
+        public decimal getElem(int row, int column)
+        {
+            return _matrix[row, column];
+        }
+
+        public void setElem(decimal value, int row, int column)
+        {
+            _matrix[row, column] = value;
+        }
+
+        public decimal Determinant()
+        {
+            ConvertToSymMatrix();
+            decimal det = 0;
+            var n = rc_matrix;
+
+            for (var i = 0; i < n - 1; i++)
+            {
+                for (var j = i + 1; j < n; j++)
                 {
                     det = (this.getElem(j, i) / this.getElem(i, i));
 
-                    for (k = i; k < n; k++)
+                    for (var k = i; k < n; k++)
                     {
-                        value = this.getElem(j, k) - det * this.getElem(i, k);
-
+                        var value = this.getElem(j, k) - det * this.getElem(i, k);
                         this.setElem(value, j, k);
                     }
                 }
             }
             det = 1;
-            for (i = 0; i < n; i++)
+            for (var i = 0; i < n; i++)
+            {
                 det = det * this.getElem(i, i);
-            return det;
+            }
+            return (decimal)det;
         }
-    }
 
+        public Matrix Clone()
+        {
+            return new Matrix((decimal[,])Base.Clone());
+        }
+
+        public decimal[,] Base { get; private set; }
+    }
 }

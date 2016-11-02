@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MNiSLab2
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -37,6 +24,9 @@ namespace MNiSLab2
             {
                 MGrid.RowDefinitions.Add(new RowDefinition());
                 var tf = new TextBox();
+                tf.MinWidth = 200;
+                tf.MinHeight = 30;
+                tf.FontSize = 16d;
                 MGrid.Children.Add(tf);
                 Grid.SetRow(tf, i);
                 Tfs.Add(tf);
@@ -69,7 +59,30 @@ namespace MNiSLab2
                 eqs[t] = eq;
             }
             var eqSystem = new EqSystem(eqs);
-            eqSystem.GetResults();
+            var res = eqSystem.GetResults();
+            if (res != null)
+            {
+                ShowResults(res);
+            }
+        }
+
+        private void ShowResults(decimal[] res)
+        {
+            RGrid.Children.Clear();
+            RGrid.RowDefinitions.Clear();
+            var wTf = new Label();
+            wTf.Content = "W = " + res[0];
+            RGrid.RowDefinitions.Add(new RowDefinition());
+            RGrid.Children.Add(wTf);
+            Grid.SetRow(wTf, 0);
+            for (var i = 1; i < res.Length; i++)
+            {
+                var tf = new Label();
+                tf.Content = "W_ = " + res[i];
+                RGrid.RowDefinitions.Add(new RowDefinition());
+                RGrid.Children.Add(tf);
+                Grid.SetRow(tf, i);
+            }
         }
 
         private List<TextBox> Tfs { get; set; }

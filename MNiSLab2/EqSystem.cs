@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MNiSLab2
 {
@@ -12,26 +8,68 @@ namespace MNiSLab2
         public EqSystem(Eq[] eqs)
         {
             Eqs = eqs;
-        }
-
-        public double[] GetResults()
-        {
-            var s=Eqs.Count();
-            double[,] varss = new double[s,s];
-            for (var i = 0; i < s; i++)
+            var varss = new decimal[Size, Size + 1];
+            for (var i = 0; i < Size; i++)
             {
-                var vs=Eqs[i].Vars;
-                for (var j = 0; j < s; j++)
+                var eqVars = new decimal[Eqs[i].Vars.Length];
+                for (var j = 0; j < Eqs[i].Vars.Count(); j++)
                 {
-                    varss[i, j] = vs[j];
+                    eqVars[j] = (decimal) Eqs[i].Vars[j];
+                }
+                for (var j = 0; j <= Size; j++)
+                {
+                    varss[i, j] = eqVars[j];
                 }
             }
-            var mW = new Matrix(varss);
-            W = mW.Determinant();
-            return null;
+            EqsMatrix = new Matrix(varss);
+            CountMainDeterminant();
+            CountOtherDeterminants();
         }
 
+        private void CountMainDeterminant()
+        {
+            MainDeterminant = CountDet(0);
+        }
+
+        private void CountOtherDeterminants()
+        {
+            OtherDeterminants = new decimal[Size];
+            for (var i = 0; i < Size; i++)
+            {
+                OtherDeterminants[i] = CountDet(i + 1);
+            }
+        }
+
+        private decimal CountDet(int i)
+        {
+            if (i == 0)
+            {
+                return EqsMatrix.Determinant();
+            }
+            var matrix = EqsMatrix.Clone();
+            for (var j = 0; j < Size; j++)
+            {
+                var c = matrix.Base[j, Size];
+                matrix.Base[j, i - 1] = c;
+            }
+            return matrix.Determinant();
+        }
+
+        public decimal[] GetResults()
+        {
+
+            var list = new List<decimal>();
+            for (var i = 0; i < Size; i++)
+            {
+                list.Add(OtherDeterminants[i] / MainDeterminant);
+            }
+            return list.ToArray();
+        }
+
+        private Matrix EqsMatrix { get; set; }
         private Eq[] Eqs { get; set; }
-        private double W { get; set; }
+        private int Size { get { return Eqs.Count(); } }
+        private decimal MainDeterminant { get; set; }
+        private decimal[] OtherDeterminants { get; set; }
     }
 }

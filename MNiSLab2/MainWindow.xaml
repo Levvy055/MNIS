@@ -16,8 +16,11 @@
         <StackPanel DockPanel.Dock="Bottom">
             <Button Content="Oblicz" Click="CountBtnClick"/>
         </StackPanel>
-        <Grid x:Name="MGrid">
+        <Grid x:Name="MGrid" HorizontalAlignment="Left" VerticalAlignment="Top">
 
+        </Grid>
+        <Grid x:Name="RGrid" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Top">
+            
         </Grid>
     </DockPanel>
     
