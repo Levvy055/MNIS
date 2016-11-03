@@ -14,7 +14,7 @@
         private void ConvertToSymMatrix()
         {
             var m = (decimal[,])Base.Clone();
-            rc_matrix = Base.GetLength(0);
+            rc_matrix = m.GetLength(0);
             _matrix = new decimal[rc_matrix, rc_matrix];
             for (var i = 0; i < rc_matrix; i++)
             {

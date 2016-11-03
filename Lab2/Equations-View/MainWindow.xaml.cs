@@ -58,10 +58,10 @@ namespace EquationsView
 
         private void CountBtn_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 var eqs = new Eq[Tfs.Count];
-                    char[] literals = {};
+                char[] literals = { };
                 for (var t = 0; t < Tfs.Count; t++)
                 {
                     var tf = Tfs[t];
@@ -78,13 +78,14 @@ namespace EquationsView
                     var eq = new Eq(vars);
                     eqs[t] = eq;
                 }
-                var eqSystem = new EqSystem(eqs, literals);
+                var solveMethod = EqMgauss.IsChecked == true ? SolvingType.GaussElimination : SolvingType.Determinants;
+                var eqSystem = new EqSystem(eqs, literals, solveMethod);
                 var res = eqSystem.GetResults();
                 if (res != null)
                 {
                     ShowResults(res);
                 }
-            }
+            /*}
             catch (IndexOutOfRangeException ex)
             {
                 EqsCount_KeyUp(null, null);
@@ -94,7 +95,7 @@ namespace EquationsView
             {
                 EqsCount_KeyUp(null, null);
                 MessageBox.Show(ex.Message, "Bledo!", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            }*/
         }
 
         private void ShowResults(Dictionary<char, decimal> res)
