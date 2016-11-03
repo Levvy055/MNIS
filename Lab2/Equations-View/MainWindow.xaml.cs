@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MNiSLab2
+namespace EquationsView
 {
     public partial class MainWindow : Window
     {

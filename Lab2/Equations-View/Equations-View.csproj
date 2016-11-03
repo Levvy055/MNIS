@@ -7,8 +7,8 @@
     <ProjectGuid>{8006A5E6-3339-4CA9-9DD7-EB2CB3979644}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MNiSLab2</RootNamespace>
-    <AssemblyName>MNiSLab2</AssemblyName>
+    <RootNamespace>EquationsView</RootNamespace>
+    <AssemblyName>EquationsView</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

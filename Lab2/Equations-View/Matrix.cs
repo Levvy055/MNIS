@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MNiSLab2
+﻿namespace EquationsView
 {
     public class Matrix
     {

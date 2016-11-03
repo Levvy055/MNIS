@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MNiSLab2", "MNiSLab2\MNiSLab2.csproj", "{8006A5E6-3339-4CA9-9DD7-EB2CB3979644}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lab2", "Lab2", "{4EED6BD4-32AE-4429-8F52-C785CB0866EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equations-View", "Lab2\Equations-View\Equations-View.csproj", "{8006A5E6-3339-4CA9-9DD7-EB2CB3979644}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +20,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8006A5E6-3339-4CA9-9DD7-EB2CB3979644} = {4EED6BD4-32AE-4429-8F52-C785CB0866EC}
 	EndGlobalSection
 EndGlobal

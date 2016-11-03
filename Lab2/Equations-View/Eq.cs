@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace MNiSLab2
+namespace EquationsView
 {
     public class Eq
     {
