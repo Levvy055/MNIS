@@ -28,6 +28,10 @@ namespace MNiSLab2
                 tf.MinWidth = 200;
                 tf.MinHeight = 30;
                 tf.FontSize = 16d;
+                if (i == count - 1)
+                {
+                    tf.KeyUp += (sender, args) => { if (args.Key == Key.Enter) { CountBtnClick(tf, args); } };
+                }
                 MGrid.Children.Add(tf);
                 Grid.SetRow(tf, i);
                 Tfs.Add(tf);
@@ -77,10 +81,12 @@ namespace MNiSLab2
             }
             catch (IndexOutOfRangeException ex)
             {
+                Key_Up(null, null);
                 MessageBox.Show("Zla ilosc zmiennych!", "Bledo!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ArgumentException ex)
             {
+                Key_Up(null, null);
                 MessageBox.Show(ex.Message, "Bledo!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
