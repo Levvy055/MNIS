@@ -58,8 +58,8 @@ namespace EquationsView
 
         private void CountBtn_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
+            try
+            {
                 var eqs = new Eq[Tfs.Count];
                 char[] literals = { };
                 for (var t = 0; t < Tfs.Count; t++)
@@ -85,7 +85,7 @@ namespace EquationsView
                 {
                     ShowResults(res);
                 }
-            /*}
+            }
             catch (IndexOutOfRangeException ex)
             {
                 EqsCount_KeyUp(null, null);
@@ -95,7 +95,7 @@ namespace EquationsView
             {
                 EqsCount_KeyUp(null, null);
                 MessageBox.Show(ex.Message, "Bledo!", MessageBoxButton.OK, MessageBoxImage.Error);
-            }*/
+            }
         }
 
         private void ShowResults(Dictionary<char, decimal> res)

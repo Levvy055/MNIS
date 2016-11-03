@@ -91,7 +91,7 @@ namespace Equations
             m = (decimal[,])m.Clone();
             PivotOperations(m);
             Eliminate(m);
-            Insert(m);
+            CleanUpWithInsert(m);
             return m;
         }
 
@@ -117,7 +117,7 @@ namespace Equations
                 }
                 else
                 {
-                    throw new Exception($"Uklad ma wiele rozwiazan! Value at {r} {c} is 0!");
+                    throw new ArgumentException($"Uklad ma wiele rozwiazan! Value at {r} {c} is 0!");
                 }
             }
         }
@@ -139,28 +139,28 @@ namespace Equations
             {
                 for (var dr = sr + 1; dr < Size; dr++)
                 {
-                    var df = m[sr, sr];
-                    var sf = m[dr, sr];
+                    var dv = m[sr, sr];
+                    var sv = m[dr, sr];
                     for (var i = 0; i < Size + 1; i++)
                     {
-                        m[dr, i] = m[dr, i] * df - m[sr, i] * sf;
+                        m[dr, i] = m[dr, i] * dv - m[sr, i] * sv;
                     }
                 }
             }
         }
 
-        private void Insert(decimal[,] m)
+        private void CleanUpWithInsert(decimal[,] m)
         {
             for (var r = Size - 1; r >= 0; r--)
             {
-                var f = m[r, r];
-                if (f == 0)
+                var pivot = m[r, r];
+                if (pivot == 0)
                 {
-                    throw new Exception($"Uklad nie ma rozwiazan! Value at {r} {r} is 0!");
+                    throw new ArgumentException($"Uklad nie ma rozwiazania! Value at {r} {r} is 0!");
                 }
                 for (var i = 0; i < Size + 1; i++)
                 {
-                    m[r, i] /= f;
+                    m[r, i] /= pivot;
                 }
                 for (var dr = 0; dr < r; dr++)
                 {
@@ -194,10 +194,8 @@ namespace Equations
         }
 
         private Matrix EqsMatrix { get; set; }
-        private Eq[] Eqs { get; set; }
-
-        private int Size => Eqs.Count();
-
+        private Eq[] Eqs { get;}
+        private int Size => Eqs.Length;
         private decimal MainDeterminant { get; set; }
         private decimal[] OtherDeterminants { get; set; }
     }
