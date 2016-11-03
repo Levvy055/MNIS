@@ -82,11 +82,29 @@ namespace Equations
         private void CountGaussEliminationMethod()
         {
             var m = EqsMatrix.Base;
-            for (var c = 0; c < Size; c++)
+            m = SolveMatrix(m);
+            EqsMatrix = new Matrix(m);
+        }
+
+        private decimal[,] SolveMatrix(decimal[,] m)
+        {
+            m = (decimal[,])m.Clone();
+            PivotOperations(m);
+            Eliminate(m);
+            Insert(m);
+            return m;
+        }
+
+        private void PivotOperations(decimal[,] m)
+        {
+            for (var c = 0; c + 1 < Size; c++)
             {
-                if (m[c, c] != 0) continue;
-                var r = c + 1;
-                for (; r < c; r++)
+                if (m[c, c] != 0)
+                {
+                    continue;
+                }
+                int r;
+                for (r = c + 1; r < Size; r++)
                 {
                     if (m[r, c] != 0)
                     {
@@ -95,42 +113,54 @@ namespace Equations
                 }
                 if (m[r, c] != 0)
                 {
-                    var t = new decimal[Size + 1];
-                    for (var i = 0; i < r + 1; i++)
-                    {
-                        t[i] = m[r, i];
-                        m[r, i] = m[c, i];
-                        m[c, i] = t[i];
-                    }
+                    Swap(m, r, c);
                 }
                 else
                 {
-                    throw new Exception("Is not 0. " + m[r, c]);
+                    throw new Exception($"Uklad ma wiele rozwiazan! Value at {r} {c} is 0!");
                 }
             }
+        }
 
-            for (var sr = 0; sr < Size - 1; sr++)
+        private void Swap(decimal[,] m, int r, int c)
+        {
+            var tempArray = new decimal[Size + 1];
+            for (var i = 0; i < Size + 1; i++)
+            {
+                tempArray[i] = m[r, i];
+                m[r, i] = m[c, i];
+                m[c, i] = tempArray[i];
+            }
+        }
+
+        private void Eliminate(decimal[,] m)
+        {
+            for (var sr = 0; sr + 1 < Size; sr++)
             {
                 for (var dr = sr + 1; dr < Size; dr++)
                 {
-                    var dv = m[sr, sr];
-                    var sv = m[dr, sr];
+                    var df = m[sr, sr];
+                    var sf = m[dr, sr];
                     for (var i = 0; i < Size + 1; i++)
                     {
-                        m[dr, i] = m[dr, i] * dv - m[sr, i] * sv;
+                        m[dr, i] = m[dr, i] * df - m[sr, i] * sf;
                     }
                 }
             }
+        }
+
+        private void Insert(decimal[,] m)
+        {
             for (var r = Size - 1; r >= 0; r--)
             {
-                var v = m[r, r];
-                if (v == 0)
+                var f = m[r, r];
+                if (f == 0)
                 {
-                    throw new Exception("v is  0 for row&column = " + r);
+                    throw new Exception($"Uklad nie ma rozwiazan! Value at {r} {r} is 0!");
                 }
-                for (var i = 0; i < Size; i++)
+                for (var i = 0; i < Size + 1; i++)
                 {
-                    m[r, i] /= v;
+                    m[r, i] /= f;
                 }
                 for (var dr = 0; dr < r; dr++)
                 {
@@ -138,8 +168,8 @@ namespace Equations
                     m[dr, r] = 0;
                 }
             }
-            EqsMatrix = new Matrix(m);
         }
+
         #endregion
 
         public Dictionary<char, decimal> GetResults()
