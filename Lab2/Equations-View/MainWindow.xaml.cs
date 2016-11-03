@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Equations;
 
 namespace EquationsView
 {
     public partial class MainWindow : Window
     {
+        const int DEFAULT_START_EQ_COUNT = 2;
+
         public MainWindow()
         {
             Tfs = new List<TextBox>();
             InitializeComponent();
-            UpdateGrid(2);
+            EqCount.Text = DEFAULT_START_EQ_COUNT.ToString();
+            UpdateGrid(DEFAULT_START_EQ_COUNT);
             FocusManager.SetFocusedElement(this, EqCount);
         }
 
@@ -25,13 +29,15 @@ namespace EquationsView
             for (var i = 0; i < count; i++)
             {
                 MGrid.RowDefinitions.Add(new RowDefinition());
-                var tf = new TextBox();
-                tf.MinWidth = 200;
-                tf.MinHeight = 30;
-                tf.FontSize = 16d;
+                var tf = new TextBox
+                {
+                    MinWidth = 200,
+                    MinHeight = 30,
+                    FontSize = 16d
+                };
                 if (i == count - 1)
                 {
-                    tf.KeyUp += (sender, args) => { if (args.Key == Key.Enter) { CountBtnClick(tf, args); } };
+                    tf.KeyUp += (sender, args) => { if (args.Key == Key.Enter) { CountBtn_Click(tf, args); } };
                 }
                 MGrid.Children.Add(tf);
                 Grid.SetRow(tf, i);
@@ -39,22 +45,23 @@ namespace EquationsView
             }
         }
 
-        private void Key_Up(object sender, KeyEventArgs e)
+        private void EqsCount_KeyUp(object sender, KeyEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(EqCount.Text))
+            if (string.IsNullOrWhiteSpace(EqCount.Text))
             {
-                var eqCount = 1;
-                int.TryParse(EqCount.Text, out eqCount);
-                UpdateGrid(eqCount);
+                return;
             }
+            int eqCount;
+            int.TryParse(EqCount.Text, out eqCount);
+            UpdateGrid(eqCount);
         }
 
-        private void CountBtnClick(object sender, RoutedEventArgs e)
+        private void CountBtn_Click(object sender, RoutedEventArgs e)
         {
-
             try
             {
                 var eqs = new Eq[Tfs.Count];
+                    char[] literals = {};
                 for (var t = 0; t < Tfs.Count; t++)
                 {
                     var tf = Tfs[t];
@@ -63,9 +70,7 @@ namespace EquationsView
                     {
                         return;
                     }
-                    char[] literals;
-                    var vars = Eq.GetVars(txt, out literals);
-                    Literals = literals;
+                    var vars = Eq.GetVarsFromStringEquation(txt, out literals);
                     if (vars == null)
                     {
                         throw new ArgumentException("Zly format wejsciowy rownania. Podano: " + txt);
@@ -73,7 +78,7 @@ namespace EquationsView
                     var eq = new Eq(vars);
                     eqs[t] = eq;
                 }
-                var eqSystem = new EqSystem(eqs);
+                var eqSystem = new EqSystem(eqs, literals);
                 var res = eqSystem.GetResults();
                 if (res != null)
                 {
@@ -82,32 +87,35 @@ namespace EquationsView
             }
             catch (IndexOutOfRangeException ex)
             {
-                Key_Up(null, null);
+                EqsCount_KeyUp(null, null);
                 MessageBox.Show("Zla ilosc zmiennych!", "Bledo!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ArgumentException ex)
             {
-                Key_Up(null, null);
+                EqsCount_KeyUp(null, null);
                 MessageBox.Show(ex.Message, "Bledo!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void ShowResults(decimal[] res)
+        private void ShowResults(Dictionary<char, decimal> res)
         {
             RGrid.Children.Clear();
             RGrid.RowDefinitions.Clear();
-            for (var i = 0; i < res.Length; i++)
+            var i = 0;
+            foreach (var rPair in res)
             {
-                var tf = new Label();
-                tf.FontSize = 20;
-                tf.Content = Literals[i] + " = " + decimal.Round(res[i], 2, MidpointRounding.AwayFromZero);
+                var tf = new Label
+                {
+                    FontSize = 20,
+                    Content = rPair.Key + " = " + decimal.Round(rPair.Value, 2, MidpointRounding.AwayFromZero)
+                };
                 RGrid.RowDefinitions.Add(new RowDefinition());
                 RGrid.Children.Add(tf);
                 Grid.SetRow(tf, i);
+                i++;
             }
         }
 
-        private List<TextBox> Tfs { get; set; }
-        public char[] Literals { get; set; }
+        private List<TextBox> Tfs { get; }
     }
 }

@@ -3,8 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Uklady Rownan"
-    Width="525"
-    Height="350">
+    Width="800"
+    Height="500">
     <Window.Background>
         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
             <GradientStop Offset="0" Color="#FF4E6999" />
@@ -13,18 +13,22 @@
     </Window.Background>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-            <Label Content="Podaj ilosc rownan: " />
+            <Label Content="Podaj ilosc rownan: " FontSize="16" />
             <TextBox
                 x:Name="EqCount"
                 MinWidth="20"
                 FontSize="20"
-                KeyUp="Key_Up"
-                Text="2" />
+                KeyUp="EqsCount_KeyUp" />
+            <Label Content="Metoda:" FontSize="16"/>
+            <StackPanel>
+                <RadioButton x:Name="EqMdet" Content="wyznacznikow" IsChecked="True" GroupName="EqMethod" FontSize="14"/>
+                <RadioButton x:Name="EqMgauss" Content="eliminacji Gaussa" GroupName="EqMethod" FontSize="14"/>
+            </StackPanel>
         </StackPanel>
         <StackPanel MinHeight="40" DockPanel.Dock="Bottom">
             <Button
                 MinHeight="40"
-                Click="CountBtnClick"
+                Click="CountBtn_Click"
                 Content="Oblicz"
                 IsDefault="True"
                 KeyboardNavigation.TabIndex="101">

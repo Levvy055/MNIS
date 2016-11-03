@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace EquationsView
+namespace Equations
 {
     public class Eq
     {
-        public double[] Vars { get; private set; }
         public Eq(double[] vars)
         {
             Vars = vars;
         }
 
-        public static double[] GetVars(string txt, out char[] literals)
+        public static double[] GetVarsFromStringEquation(string txt, out char[] literals)
         {
             var list = new List<double>();
             var splitted = GetSplitted(txt);
@@ -21,10 +20,9 @@ namespace EquationsView
                 return null;
             }
             var literalsList = new List<char>();
-            for (var i = 0; i < splitted.Count(); i++)
+            foreach (var v in splitted)
             {
-                var v = splitted[i];
-                var d = 0d;
+                double d;
                 if (double.TryParse(v, out d))
                 {
                     list.Add(d);
@@ -77,7 +75,7 @@ namespace EquationsView
             {
                 txt = txt.Replace("-", "+-");
             }
-            var res = txt.Split(new char[] { '+', '=' });
+            var res = txt.Split('+', '=');
             var splitted = new List<string>();
             foreach (var s in res)
             {
@@ -89,5 +87,7 @@ namespace EquationsView
             res = splitted.ToArray();
             return res;
         }
+
+        public double[] Vars { get; private set; }
     }
 }

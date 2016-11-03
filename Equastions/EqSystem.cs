@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace EquationsView
+namespace Equations
 {
     public class EqSystem
     {
-        public EqSystem(Eq[] eqs)
+        private Eq[] eqs;
+        private char[] literals;
+
+        public EqSystem(Eq[] eqs, char[] literals)
         {
             Eqs = eqs;
+            this.literals = literals;
             var varss = new decimal[Size, Size + 1];
             for (var i = 0; i < Size; i++)
             {
@@ -25,7 +29,7 @@ namespace EquationsView
             CountMainDeterminant();
             CountOtherDeterminants();
         }
-
+        
         private void CountMainDeterminant()
         {
             MainDeterminant = CountDet(0);
@@ -55,15 +59,15 @@ namespace EquationsView
             return matrix.Determinant();
         }
 
-        public decimal[] GetResults()
+        public Dictionary<char, decimal> GetResults()
         {
 
-            var list = new List<decimal>();
+            var list = new Dictionary<char, decimal>();
             for (var i = 0; i < Size; i++)
             {
-                list.Add(OtherDeterminants[i] / MainDeterminant);
+                list.Add(literals[i], OtherDeterminants[i] / MainDeterminant);
             }
-            return list.ToArray();
+            return list;
         }
 
         private Matrix EqsMatrix { get; set; }

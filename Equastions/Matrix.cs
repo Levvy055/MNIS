@@ -1,4 +1,4 @@
-﻿namespace EquationsView
+﻿namespace Equations
 {
     public class Matrix
     {
