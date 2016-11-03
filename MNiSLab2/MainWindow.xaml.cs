@@ -13,6 +13,7 @@ namespace MNiSLab2
             Tfs = new List<TextBox>();
             InitializeComponent();
             UpdateGrid(2);
+            FocusManager.SetFocusedElement(this, EqCount);
         }
 
         private void UpdateGrid(int count)

@@ -25,12 +25,23 @@
             <Button
                 MinHeight="40"
                 Click="CountBtnClick"
-                Content="Oblicz" />
+                Content="Oblicz"
+                IsDefault="True"
+                KeyboardNavigation.TabIndex="101">
+                <Button.Background>
+                    <RadialGradientBrush>
+                        <GradientStop Offset="0" Color="#FF32DACB" />
+                        <GradientStop Offset="1" Color="#00314BC3" />
+                    </RadialGradientBrush>
+                </Button.Background>
+            </Button>
         </StackPanel>
-        <Grid
-            x:Name="MGrid"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid
+                x:Name="MGrid"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top" />
+        </ScrollViewer>
         <Grid
             x:Name="RGrid"
             HorizontalAlignment="Right"
