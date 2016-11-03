@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -54,7 +55,9 @@ namespace MNiSLab2
                 {
                     return;
                 }
-                var vars = Eq.GetVars(txt);
+                char[] literals;
+                var vars = Eq.GetVars(txt, out literals);
+                Literals = literals;
                 var eq = new Eq(vars);
                 eqs[t] = eq;
             }
@@ -70,15 +73,11 @@ namespace MNiSLab2
         {
             RGrid.Children.Clear();
             RGrid.RowDefinitions.Clear();
-            var wTf = new Label();
-            wTf.Content = "W = " + res[0];
-            RGrid.RowDefinitions.Add(new RowDefinition());
-            RGrid.Children.Add(wTf);
-            Grid.SetRow(wTf, 0);
-            for (var i = 1; i < res.Length; i++)
+            for (var i = 0; i < res.Length; i++)
             {
                 var tf = new Label();
-                tf.Content = "W_ = " + res[i];
+                tf.FontSize = 20;
+                tf.Content = Literals[i] + " = " + decimal.Round(res[i], 2, MidpointRounding.AwayFromZero);
                 RGrid.RowDefinitions.Add(new RowDefinition());
                 RGrid.Children.Add(tf);
                 Grid.SetRow(tf, i);
@@ -86,5 +85,6 @@ namespace MNiSLab2
         }
 
         private List<TextBox> Tfs { get; set; }
+        public char[] Literals { get; set; }
     }
 }
