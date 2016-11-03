@@ -9,7 +9,7 @@ namespace EquationsView
 {
     public partial class MainWindow : Window
     {
-        const int DEFAULT_START_EQ_COUNT = 2;
+        public const int DEFAULT_START_EQ_COUNT = 2;
 
         public MainWindow()
         {

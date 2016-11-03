@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equations-View", "Lab2\Equa
 		{DA1188BD-DD83-4EDD-A9B5-D44409F2B43E} = {DA1188BD-DD83-4EDD-A9B5-D44409F2B43E}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equations", "Equastions\Equations.csproj", "{DA1188BD-DD83-4EDD-A9B5-D44409F2B43E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Equations", "Lab2\Equastions\Equations.csproj", "{DA1188BD-DD83-4EDD-A9B5-D44409F2B43E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

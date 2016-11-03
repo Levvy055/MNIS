@@ -97,8 +97,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Equastions\Equations.csproj">
-      <Project>{da1188bd-dd83-4edd-a9b5-d44409f2b43e}</Project>
+    <ProjectReference Include="..\Equastions\Equations.csproj">
+      <Project>{DA1188BD-DD83-4EDD-A9B5-D44409F2B43E}</Project>
       <Name>Equations</Name>
     </ProjectReference>
   </ItemGroup>
