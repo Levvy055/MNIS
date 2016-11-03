@@ -46,26 +46,42 @@ namespace MNiSLab2
 
         private void CountBtnClick(object sender, RoutedEventArgs e)
         {
-            var eqs = new Eq[Tfs.Count];
-            for (var t = 0; t < Tfs.Count; t++)
+
+            try
             {
-                var tf = Tfs[t];
-                var txt = tf.Text;
-                if (string.IsNullOrWhiteSpace(txt))
+                var eqs = new Eq[Tfs.Count];
+                for (var t = 0; t < Tfs.Count; t++)
                 {
-                    return;
+                    var tf = Tfs[t];
+                    var txt = tf.Text;
+                    if (string.IsNullOrWhiteSpace(txt))
+                    {
+                        return;
+                    }
+                    char[] literals;
+                    var vars = Eq.GetVars(txt, out literals);
+                    Literals = literals;
+                    if (vars == null)
+                    {
+                        throw new ArgumentException("Zly format wejsciowy rownania. Podano: " + txt);
+                    }
+                    var eq = new Eq(vars);
+                    eqs[t] = eq;
                 }
-                char[] literals;
-                var vars = Eq.GetVars(txt, out literals);
-                Literals = literals;
-                var eq = new Eq(vars);
-                eqs[t] = eq;
+                var eqSystem = new EqSystem(eqs);
+                var res = eqSystem.GetResults();
+                if (res != null)
+                {
+                    ShowResults(res);
+                }
             }
-            var eqSystem = new EqSystem(eqs);
-            var res = eqSystem.GetResults();
-            if (res != null)
+            catch (IndexOutOfRangeException ex)
             {
-                ShowResults(res);
+                MessageBox.Show("Zla ilosc zmiennych!", "Bledo!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Bledo!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
