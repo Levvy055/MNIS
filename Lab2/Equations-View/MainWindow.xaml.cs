@@ -94,7 +94,7 @@ namespace EquationsView
             catch (ArgumentException ex)
             {
                 EqsCount_KeyUp(null, null);
-                MessageBox.Show(ex.Message, "Bledo!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Blad!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -50,6 +50,10 @@ namespace Equations
         private void CountMainDeterminant()
         {
             MainDeterminant = CountDet(0);
+            if (MainDeterminant == 0)
+            {
+                throw new ArgumentException("Uklad rownan jest sprzeczny badz nieoznaczony!");
+            }
         }
 
         private void CountOtherDeterminants()
